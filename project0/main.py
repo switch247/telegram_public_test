@@ -1,7 +1,6 @@
 from aiogram import Bot, Dispatcher, executor, types
 from aiogram.types import ReplyKeyboardMarkup, ReplyKeyboardRemove, KeyboardButton
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-from aiogram.types import FSInputFile
 from random import randint
 
 dp = Bot(token='5699527558:AAGtfCXqGB5fDqcByRpNTq2rPZzcUbIh504')
@@ -44,8 +43,9 @@ async def pics(message: types.Message):
 
 @bot.message_handler(commands=['lpic', 'lPic'])
 async def locpics(message: types.Message):
-    
-    await bot.send_photo(chat_id=message.chat.id, photo = FSInputFile('project0\pics\images.jpg') )#open('project0\pics\images.jpg', 'rb')
+    #picture= bot.get("pics/images.jpg")
+    #picture.png('code.png', scale=5)
+    await bot.send_photo(chat_id=message.chat.id, photo = open("code.png", 'rb') )
     
 
 
