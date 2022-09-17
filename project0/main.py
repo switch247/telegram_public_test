@@ -13,7 +13,7 @@ keyboard_inline = InlineKeyboardMarkup().add(button1, button2)
 kerboard_reply = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True).add("👋 Hello!", "💋 Youtube")
 #reply keyboard much better option
 
-kerboard_rps = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True).add("rock!", "paper!", "sissors!")
+kerboard_rps = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False).add("rock!", "paper!", "sissors!").add("exit")
 @bot.message_handler(commands=['start', 'Start'])
 async def welcome(message: types.Message):
     await message.reply("Hello!", reply_markup=kerboard_reply)
@@ -33,39 +33,18 @@ async def random_value(call: types.CallbackQuery):
         await call.message.answer(randint(1, 100))
     await call.answer()
 
-
-
 @bot.message_handler(commands=['Game', 'game'])
 async def play(message: types.Message):
     await message.reply("you want to Blay lets Blay", reply_markup=kerboard_rps)
-    options=["rock!", "paper!", "sissors!"]
-    @bot.message_handler()
-    async def games(message):
-        x=options[randint(0, 2)]
-        if message.text == 'rock!':
-            await message.reply (  x )
 
-        elif message.text == 'paper!':
-            await message.reply( x )
+@bot.message_handler(commands=['pic', 'Pic'])
+async def pics(message: types.Message):
+    await message.answer_photo("https://link")
 
-        elif message.text == 'sisors!':
-            await message.reply( x  )
-
-        elif message.text == 'exit':
-            return
-        winner(message,x)
-    def winner(u,b):
-        if u=='rock!' and b=='sissors!':
-            return("WIN!!!")
-        elif u == 'paper!' and b=='rock!':
-            return("WIN!!!")
-        elif u == 'sissors!' and b =='paper!':
-            return("WIN!!!")
-        elif u==b:
-            return "DRAW!!"
-        else:
-            return "LOSE!"
-
+@bot.message_handler(commands=['lpic', 'lPic'])
+async def locpics(message: types.Message):
+    await message.send_photo(message.chat.id, photo= open("pics/images.jpg",'rb'))
+    
 
 
 @bot.message_handler()

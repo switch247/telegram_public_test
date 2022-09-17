@@ -16,7 +16,7 @@ async def welcome(message: types.Message):
     await message.reply("Hello!", reply_markup=kerboard_rps)
     playing=False
     while(playing):
-    @bot.send_message(text="sdf",reply_ markup=kerboard_rps)
+    @bot.send_message(text="sdf",reply_markup=kerboard_rps)
 
 @bot.message_handler( func = lambda msg: msg in ["rock!", "paper!", "sissors!","exit"])
 async def games(message):
