@@ -1,28 +1,50 @@
 from aiogram import Bot, Dispatcher, executor, types
 from aiogram.types import ReplyKeyboardMarkup, ReplyKeyboardRemove, KeyboardButton
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from random import randint
 
-API_KEY = '5699527558:AAGtfCXqGB5fDqcByRpNTq2rPZzcUbIh504'
-dp = Bot(token=API_KEY)
+dp = Bot(token='5699527558:AAGtfCXqGB5fDqcByRpNTq2rPZzcUbIh504')
 bot = Dispatcher(dp)
-button1 = KeyboardButton("youtube")
-button2 = KeyboardButton("something!")
-keyboard1 = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
-keyboard1.add(button1)
-keyboard1.add(button2)
 
-@bot.message_handler( commands=['start','Start'] )
-async def start(message):
-    await message.reply("safsaf",reply_markup = keyboard1)
+button1 = InlineKeyboardButton(text="👋 LOW", callback_data="randomvalue_of10")
+button2 = InlineKeyboardButton(text="💋 High", callback_data="randomvalue_of100")
+keyboard_inline = InlineKeyboardMarkup().add(button1, button2)
+#inline doesnt send message it sends callback data (read by bot.callback_query_handler(text=[]))
+kerboard_reply = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True).add("👋 Hello!", "💋 Youtube")#reply keyboard much better option
 
-@bot.message_handler(func=lambda msg: msg)
-async def normal_message_handler(message):  
-    if  message.text=="something!":
-        bot.reply_to(message, "hello motha fuka")  #"hello motha fuka"
-    elif message.text=="youtube":
-        bot.reply_to(message, "hi youtube")  #"youtube"
+
+@bot.message_handler(commands=['start', 'Start'])
+async def welcome(message: types.Message):
+    await message.reply("Hello!", reply_markup=kerboard_reply)
+
+
+@bot.message_handler()
+async def kb_answer(message: types.Message):
+    if message.text == '👋 Hello!':
+        await message.reply("hello motha fuka")
+    elif message.text == '💋 Youtube':
+        await message.reply("https://youtube.com")
     else:
-        bot.reply_to(message, message.text)  #"hello motha fuka"
+        await message.reply(f"Your message is: {message.text}")
+
+@bot.message_handler(commands=['random'])
+async def random_answer(message: types.Message):
+    await message.reply("Select a range:", reply_markup=keyboard_inline)
+    
+@bot.callback_query_handler(text=["randomvalue_of10", "randomvalue_of100"])
+async def random_value(call: types.CallbackQuery):
+    if call.data == "randomvalue_of10":
+        await call.message.answer(randint(1, 10))
+    if call.data == "randomvalue_of100":
+        await call.message.answer(randint(1, 100))
+    await call.answer()
 
 
 executor.start_polling(bot)
+
+
+
+
+
+
 
