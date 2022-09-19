@@ -2,7 +2,8 @@ from aiogram import Bot, Dispatcher, executor, types
 from aiogram.types import ReplyKeyboardMarkup, ReplyKeyboardRemove, KeyboardButton
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from random import randint
-
+import pyqrcode
+import rpc as g
 dp = Bot(token='5699527558:AAGtfCXqGB5fDqcByRpNTq2rPZzcUbIh504')
 bot = Dispatcher(dp)
 
@@ -14,11 +15,10 @@ kerboard_reply = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=Tru
 #reply keyboard much better option
 
 kerboard_rps = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False).add("rock!", "paper!", "sissors!").add("exit")
+
 @bot.message_handler(commands=['start', 'Start'])
 async def welcome(message: types.Message):
     await message.reply("Hello!", reply_markup=kerboard_reply)
-
-
 
 
 @bot.message_handler(commands=['random'])
@@ -36,17 +36,24 @@ async def random_value(call: types.CallbackQuery):
 @bot.message_handler(commands=['Game', 'game'])
 async def play(message: types.Message):
     await message.reply("you want to Blay lets Blay", reply_markup=kerboard_rps)
+    #g.games(message)
 
 @bot.message_handler(commands=['pic', 'Pic'])
 async def pics(message: types.Message):
-    await message.answer_photo("https://avatars.githubusercontent.com/u/62240649?v=4")
+    await message.answer_photo("https://pbs.twimg.com/profile_images/1566268560023977984/zahVS0ZW_400x400.jpg")
 
-@bot.message_handler(commands=['lpic', 'lPic'])
+@bot.message_handler(commands=["qr"])
+async def qr(message: types.Message):
+    text = pyqrcode.create(message.text)
+    text.png('test.png', scale=5)
+    await dp.send_photo(chat_id=message.chat.id, photo=open('test.png', 'rb'))
+
+@bot.message_handler(commands=["randomPImage"])
 async def locpics(message: types.Message):
-    #picture= bot.get("pics/images.jpg")
-    #picture.png('code.png', scale=5)
-    await bot.send_photo(chat_id=message.chat.id, photo = open("code.png", 'rb') )
-    
+    await dp.send_photo(chat_id=message.chat.id, photo = "https://picsum.photos/1200" )
+@bot.message_handler(commands=["randomPeople"])
+async def locpics(message: types.Message):
+    await dp.send_photo(chat_id=message.chat.id, photo = "https://thispersondoesnotexist.com/image" )    
 
 
 @bot.message_handler()

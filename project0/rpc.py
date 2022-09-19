@@ -9,14 +9,14 @@ bot = Dispatcher(dp)
 
 
 
-kerboard_rps = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False).add("rock!", "paper!", "sissors!").add("exit")
+kerboard_rps = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True).add("rock!", "paper!", "sissors!").add("exit")
 options=["rock!", "paper!", "sissors!"]
 @bot.message_handler(commands=['start', 'Start'])
 async def welcome(message: types.Message):
     await message.reply("Hello!", reply_markup=kerboard_rps)
-    playing=False
+    '''playing=False
     while(playing):
-    @bot.send_message(text="sdf",reply_markup=kerboard_rps)
+        @bot.send_message(text="sdf",reply_markup=kerboard_rps)'''
 
 @bot.message_handler( func = lambda msg: msg in ["rock!", "paper!", "sissors!","exit"])
 async def games(message):
