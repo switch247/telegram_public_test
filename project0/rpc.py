@@ -4,7 +4,7 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from random import randint
 import main as m
 
-dp = Bot(token='5699527558:AAGtfCXqGB5fDqcByRpNTq2rPZzcUbIh504')
+dp = Bot(token=m.API_KEY)
 bot = Dispatcher(dp)
 
 
