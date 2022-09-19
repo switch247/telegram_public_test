@@ -3,9 +3,11 @@ from aiogram.types import ReplyKeyboardMarkup, ReplyKeyboardRemove, KeyboardButt
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from random import randint
 from requests import *
+import os
 import pyqrcode
 import rpc as g
-dp = Bot(token='5699527558:AAGtfCXqGB5fDqcByRpNTq2rPZzcUbIh504')
+API_KEY = os.getenv('API_KEY')
+dp = Bot(token=API_KEY)
 bot = Dispatcher(dp)
 
 button1 = InlineKeyboardButton(text="👋 LOW", callback_data="randomvalue_of10")
@@ -48,6 +50,8 @@ async def qr(message: types.Message):
     text = pyqrcode.create("qr")#pyqrcode.create(message.text)
     text.png('test.png', scale=5)
     await dp.send_photo(chat_id=message.chat.id, photo=open('test.png', 'rb'))
+    
+
 randomPImageUrl ="https://picsum.photos/1200"
 randomPeopleUrl ="https://thispersondoesnotexist.com/image"
 @bot.message_handler(commands=["randomPImage"])
