@@ -2,6 +2,7 @@ from aiogram import Bot, Dispatcher, executor, types
 from aiogram.types import ReplyKeyboardMarkup, ReplyKeyboardRemove, KeyboardButton
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from random import randint
+from requests import *
 import pyqrcode
 import rpc as g
 dp = Bot(token='5699527558:AAGtfCXqGB5fDqcByRpNTq2rPZzcUbIh504')
@@ -44,16 +45,18 @@ async def pics(message: types.Message):
 
 @bot.message_handler(commands=["qr"])
 async def qr(message: types.Message):
-    text = pyqrcode.create(message.text)
+    text = pyqrcode.create("qr")#pyqrcode.create(message.text)
     text.png('test.png', scale=5)
     await dp.send_photo(chat_id=message.chat.id, photo=open('test.png', 'rb'))
-
+randomPImageUrl ="https://picsum.photos/1200"
+randomPeopleUrl ="https://thispersondoesnotexist.com/image"
 @bot.message_handler(commands=["randomPImage"])
 async def locpics(message: types.Message):
-    await dp.send_photo(chat_id=message.chat.id, photo = "https://picsum.photos/1200" )
+    await dp.send_photo(chat_id=message.chat.id, photo = get(randomPImageUrl).content )
+    #if we use just the url it will show same pic twice
 @bot.message_handler(commands=["randomPeople"])
 async def locpics(message: types.Message):
-    await dp.send_photo(chat_id=message.chat.id, photo = "https://thispersondoesnotexist.com/image" )    
+    await dp.send_photo(chat_id=message.chat.id, photo = get(randomPeopleUrl).content )    
 
 
 @bot.message_handler()
@@ -66,13 +69,4 @@ async def kb_answer(message: types.Message):
     else:
         await message.reply(f"Your message is: {message.text}")
 
-
-
 executor.start_polling(bot)
-
-
-
-
-
-
-
