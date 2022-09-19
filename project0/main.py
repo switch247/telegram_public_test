@@ -2,10 +2,11 @@ from aiogram import Bot, Dispatcher, executor, types
 from aiogram.types import ReplyKeyboardMarkup, ReplyKeyboardRemove, KeyboardButton
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from random import randint
-from requests import *
+from requests import *#get()
 import os
 import pyqrcode
 import rpc as g
+
 API_KEY = os.getenv('API_KEY')
 dp = Bot(token=API_KEY)
 bot = Dispatcher(dp)
