@@ -5,6 +5,7 @@ from random import randint
 from requests import *#get()
 import os
 import pyqrcode
+from datetime import datetime
 import rpc as g
 
 API_KEY = os.getenv('API_KEY')
@@ -24,6 +25,15 @@ kerboard_rps = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False
 async def welcome(message: types.Message):
     await message.reply("Hello!", reply_markup=kerboard_reply)
 
+    @bot.message_handler(commands= ['help'] )
+async def g (message):
+    await message.reply( "help is on the way")
+
+@bot.message_handler(commands=["time"])
+async def gg (message: types.Message):
+    current_time = datetime.now().strftime("%H:%M:%S")
+    await message.reply( "Current Time ={}".format(current_time)  )
+    
 
 @bot.message_handler(commands=['random'])
 async def random_answer(message: types.Message):
